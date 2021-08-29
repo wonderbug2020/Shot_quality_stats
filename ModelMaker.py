@@ -7,6 +7,7 @@ import xgboost as xgb
 from pytorch_tabnet.tab_model import TabNetRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import log_loss
+import matplotlib.pyplot as plt
 
 
 def get_X_y(df):
@@ -50,6 +51,7 @@ def run_XGB(df,test_size=0.25,random_state=101):
     y_pred = xgb_reg.predict(X_test)
     ll = round(log_loss(y_test, y_pred),5)
     print(f'The Log loss is {ll}')
+    return xgb_reg
 
 def run_tabnet(df,max_epochs = 20):
     X,y = get_X_y_tab(df)
@@ -65,3 +67,9 @@ def run_tabnet(df,max_epochs = 20):
     y_pred = reg.predict(X_test)
     ll = round(log_loss(y_test, y_pred),5)
     print(f'The Log loss is {ll}')
+    return model
+
+def plot_xgb(model):
+    #print(model.feature_importances_)
+    xgb.plot_importance(model)
+    plt.show()
