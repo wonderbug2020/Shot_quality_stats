@@ -69,7 +69,5 @@ def run_tabnet(df,max_epochs = 20):
     print(f'The Log loss is {ll}')
     return model
 
-def plot_xgb(model):
-    #print(model.feature_importances_)
-    xgb.plot_importance(model)
-    plt.show()
+def plot_xgb(model, show_feat=10, type='weight'):
+    xgb.plot_importance(model, max_num_features=show_feat, importance_type=type, xlabel=type)
