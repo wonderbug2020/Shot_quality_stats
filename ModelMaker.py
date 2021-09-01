@@ -6,7 +6,7 @@ import pandas as pd
 import xgboost as xgb
 from pytorch_tabnet.tab_model import TabNetRegressor
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import log_loss
+from sklearn.metrics import log_loss, r2_score
 import matplotlib.pyplot as plt
 
 
@@ -51,12 +51,14 @@ def run_XGB(df,test_size=0.25,random_state=101):
     y_pred = xgb_reg.predict(X_test)
     ll = round(log_loss(y_test, y_pred),5)
     print(f'The Log loss is {ll}')
+    r2 = r2_score(y_test, y_pred)
+    print(f'The R^2 value is {r2}')
     return xgb_reg
 
-def run_tabnet(df,max_epochs = 20):
+def run_tabnet(df,max_epochs = 20, device='cpu'):
     X,y = get_X_y_tab(df)
     X_train, X_val, X_test, y_train, y_val, y_test = split_data_tab(X,y)
-    reg = TabNetRegressor()
+    reg = TabNetRegressor(device_name = device)
     print('Running the TabNet DNN, this could take a while')
     model = reg.fit(X_train, y_train,
                     eval_set = [(X_train, y_train), (X_val, y_val)],
