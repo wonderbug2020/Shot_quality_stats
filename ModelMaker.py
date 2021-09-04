@@ -51,8 +51,14 @@ def run_XGB(df,test_size=0.25,random_state=101):
     y_pred = xgb_reg.predict(X_test)
     ll = round(log_loss(y_test, y_pred),5)
     print(f'The Log loss is {ll}')
-    r2 = r2_score(y_test, y_pred)
+    r2 = round(r2_score(y_test, y_pred),4)
     print(f'The R^2 value is {r2}')
+    print(N)
+    print(p)
+    v1 = (1-r2)
+    v2 = (N-1)/(N-p-1)
+    r2_a = round((1-(v1*v2)),4)
+    print(f'The adjusted R^2 value is {r2_a}')
     return xgb_reg
 
 def run_tabnet(df,max_epochs = 20, device='cpu'):
