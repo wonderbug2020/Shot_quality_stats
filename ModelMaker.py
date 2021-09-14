@@ -53,12 +53,6 @@ def run_XGB(df,test_size=0.25,random_state=101):
     print(f'The Log loss is {ll}')
     r2 = round(r2_score(y_test, y_pred),4)
     print(f'The R^2 value is {r2}')
-    print(N)
-    print(p)
-    v1 = (1-r2)
-    v2 = (N-1)/(N-p-1)
-    r2_a = round((1-(v1*v2)),4)
-    print(f'The adjusted R^2 value is {r2_a}')
     return xgb_reg
 
 def run_tabnet(df,max_epochs = 20, device='cpu'):
@@ -78,4 +72,8 @@ def run_tabnet(df,max_epochs = 20, device='cpu'):
     return model
 
 def plot_xgb(model, show_feat=10, type='weight'):
+    ''' This function uses XGB's plot importance function
+        max_num_features is the number of features that you want displayed
+        importance_type is what is used to calcualte importance. Options are weight, gain, and cover
+    '''
     xgb.plot_importance(model, max_num_features=show_feat, importance_type=type, xlabel=type)
