@@ -13,7 +13,10 @@ import matplotlib.pyplot as plt
 def get_X_y(df):
     ''' This function takes in a dataframe and splits it into the X and y variables
     '''
-    X = df.drop(['is_goal','Unnamed: 0'], axis=1)
+    try:
+        X = df.drop(['is_goal','Unnamed: 0'], axis=1)
+    except KeyError:
+        X = df.drop(['is_goal'], axis=1)
     y = df.is_goal
 
     return X,y
@@ -21,6 +24,7 @@ def get_X_y(df):
 def get_X_y_tab(df):
     ''' This function takes in a dataframe and splits it into the X and y variables
     '''
+
     X = df.drop(['is_goal'], axis=1).to_numpy()
     y = df.is_goal.to_numpy()
 
